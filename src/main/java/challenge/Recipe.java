@@ -1,9 +1,10 @@
 package challenge;
-import org.springframework.context.annotation.Bean;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.web.bind.annotation.RequestBody;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -50,6 +51,38 @@ public class Recipe {
         this.likes = likes;
     }
 
+    public void addLike(String like) {
+        if(likes == null) {
+            likes = new ArrayList<String>();
+        }
+        likes.add(like);
+    }
+
+    public boolean removeLike(String like) {
+        if(likes != null) {
+            return likes.remove(like);
+        }
+        return false;
+    }
+
+    public String addComment(RecipeComment comment) {
+        String _id = (new ObjectId()).toString();
+        comment.setId(_id);
+        if(comments == null) {
+            comments = new ArrayList<RecipeComment>();
+        }
+        comments.add(comment);
+        return _id;
+    }
+
+    public boolean removeComment(RecipeComment comment) {
+        if(comments != null) {
+            return comments.remove(comment);
+        }
+        return false;
+    }
+
+
     public List<String> getIngredients() {
         return ingredients;
     }
@@ -64,5 +97,14 @@ public class Recipe {
 
     public void setComments(List<RecipeComment> comments) {
         this.comments = comments;
+    }
+
+    public RecipeComment getComment(String id) {
+        if(comments != null) {
+            for (RecipeComment c : comments) {
+                if (c.getId().equals(id)) return c;
+            }
+        }
+        return null;
     }
 }
