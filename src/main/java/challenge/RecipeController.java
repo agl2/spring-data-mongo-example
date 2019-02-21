@@ -39,28 +39,34 @@ public class RecipeController {
 		return service.listByIngredient(ingredient);
 	}
 
-	public List<Recipe> search() {
-		return service.search(null);
+	@GetMapping("/search")
+	public List<Recipe> search(@RequestParam String search) {
+		return service.search(search);
 	}
 
-	public void like() {
-		service.like(null, null);
+	@PostMapping("/{id}/like/{userId}")
+	public void like(@PathVariable String id,@PathVariable String userId) {
+		service.like(id, userId);
 	}
 
-	public void unlike() {
-		service.unlike(null, null);
+	@DeleteMapping("/{id}/like/{userId}")
+	public void unlike(@PathVariable String id,@PathVariable String userId) {
+		service.unlike(id, userId);
 	}
 
-	public RecipeComment addComment() {
-		return service.addComment(null, null);
+	@PostMapping("/{id}/comment")
+	public @ResponseBody RecipeComment addComment(@PathVariable String id, @RequestBody RecipeComment comment) {
+		return service.addComment(id, comment);
 	}
 
-	public void updateComment() {
-		service.updateComment(null, null, null);
+	@PutMapping("/{id}/comment/{commentId}")
+	public void updateComment(@PathVariable String id, @PathVariable String commentId, @RequestBody RecipeComment comment) {
+		service.updateComment(id, commentId, comment);
 	}
 
-	public void deleteComment() {
-		service.deleteComment(null, null);
+	@DeleteMapping("/{id}/comment/{commentId}")
+	public void deleteComment(@PathVariable String id, @PathVariable String commentId) {
+		service.deleteComment(id, commentId);
 	}
 
 }

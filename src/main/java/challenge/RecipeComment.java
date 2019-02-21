@@ -3,6 +3,8 @@ package challenge;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.annotation.Generated;
+
 @Document(collection = "comments")
 public class RecipeComment {
 
@@ -24,5 +26,14 @@ public class RecipeComment {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o != null && o instanceof RecipeComment) {
+            RecipeComment toCompare = (RecipeComment) o;
+            return this.id.equals(toCompare.getId());
+        }
+        return false;
     }
 }
